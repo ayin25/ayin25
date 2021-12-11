@@ -12,7 +12,7 @@ class PortScan():
 		self.target = target
 		self.port_num = port_num
 
-	def check_ip(self):
+	def get_ip(self):
 		try:
 			IP(self.target)
 			return(self.target)
@@ -28,10 +28,10 @@ class PortScan():
 
 	def scan_port(self,port):
 		try:
-			converted_ip = self.check_ip()
-			sock = socket.socket()
-			sock.settimeout(0.5)
-			sock.connect((converted_ip,port))
+			c_ip = self.get_ip()
+			s = socket.socket()
+			s.settimeout(0.5)
+			s.connect((c_ip,port))
 			self.open_ports.append(port)
 			try:
 				banner = socket.recv(1024).decode().strip('\n').strip('\r')
@@ -39,4 +39,4 @@ class PortScan():
 			except:
 				self.banners.append(' ')
 		except:
-			sock.close()
+			s.close()
